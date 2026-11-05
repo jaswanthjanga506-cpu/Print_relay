@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Eye, EyeOff, ArrowLeft, ArrowRight, Check, Printer } from 'lucide-react';
+import { Eye, EyeOff, ArrowLeft, ArrowRight, Check, Printer, Sparkles } from 'lucide-react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { api, errorMessage, payload } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -19,6 +19,7 @@ export function AuthPage() {
   const [role, setRole] = useState(mode === 'shop-owner' ? 'shop_owner' : 'customer');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [demoDetailsOpen, setDemoDetailsOpen] = useState(false);
   const [error, setError] = useState(location.state?.message || '');
   useEffect(() => { setRole(mode === 'shop-owner' ? 'shop_owner' : 'customer'); }, [mode]);
 
@@ -56,6 +57,28 @@ export function AuthPage() {
   return <div className="auth-page"><aside className="auth-visual"><Logo light /><div className="auth-promo"><span className="eyebrow">PRINTRELAY / YOUR WORKSPACE</span><h1>{register ? 'A smoother print run starts here.' : 'Good to have you back.'}</h1><p>{register ? 'One account for a clearer way to upload, print and collect.' : 'Pick up where you left off. Your orders and updates are right here.'}</p><div className="auth-promo-mark"><Printer size={29} strokeWidth={1.4} /><span>UPLOAD. PRINT. COLLECT.</span></div></div><span className="auth-side-footer">LOCAL PRINTING, BETTER CONNECTED.</span></aside>
     <main className="auth-main"><div className="auth-topline"><Link to="/" className="back-link"><ArrowLeft size={15} /> Home</Link><span>{register ? 'Already have an account?' : 'New to PrintRelay?'} <Link to={register ? '/login' : '/register/customer'}>{register ? 'Sign in' : 'Create account'}</Link></span></div>
       <section className="auth-form-wrap"><div className="auth-title"><span className="eyebrow">{register ? 'CREATE YOUR ACCOUNT' : 'WELCOME BACK'}</span><h2>{register ? 'Get started.' : 'Sign in.'}</h2><p>{register ? 'Tell us a little about yourself.' : 'Your PrintRelay workspace is waiting.'}</p></div>
+        {!register && <div className="demo-details">
+          <button
+            aria-controls="demo-details-panel"
+            aria-expanded={demoDetailsOpen}
+            className="demo-details-trigger"
+            onClick={() => setDemoDetailsOpen((open) => !open)}
+            type="button"
+          >
+            <Sparkles aria-hidden="true" size={17} />
+            <span>{demoDetailsOpen ? 'Hide demo details' : 'Click here for demo details'}</span>
+            <ArrowRight aria-hidden="true" className="demo-details-arrow" size={16} />
+          </button>
+          {demoDetailsOpen && <div className="demo-details-panel" id="demo-details-panel">
+            <p className="demo-details-intro">Explore PrintRelay with one of these demo roles:</p>
+            <ul>
+              <li><span>Admin</span><code>admin@printrelay.test</code></li>
+              <li><span>Customer</span><code>customer@printrelay.test</code></li>
+              <li><span>Shop owner</span><code>owner@printrelay.test</code></li>
+            </ul>
+            <p className="demo-details-note">For account security, passwords aren’t displayed here. Contact the demo host for access.</p>
+          </div>}
+        </div>}
         {register && <div className="role-choice" role="group" aria-label="Account type"><button className={role === 'customer' ? 'selected' : ''} onClick={() => setRole('customer')} type="button"><span className="role-dot" /> Customer</button><button className={role === 'shop_owner' ? 'selected' : ''} onClick={() => setRole('shop_owner')} type="button"><span className="role-dot" /> Printing shop</button></div>}
         <form className="auth-form" onSubmit={submit}>
           {register && <Field label="Your name" name="name" placeholder="e.g. Alex Morgan" autoComplete="name" required minLength={2} maxLength={80} />}
