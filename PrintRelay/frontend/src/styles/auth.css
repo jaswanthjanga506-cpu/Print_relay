@@ -1,0 +1,47 @@
+.auth-page { background: var(--paper); display: grid; grid-template-columns: minmax(300px,.85fr) minmax(460px,1.15fr); min-height: 100vh; }
+.auth-visual { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; padding: 28px 7%; position: sticky; top: 0; }
+.auth-promo { margin: auto 0; max-width: 440px; padding: 70px 0; }
+.auth-promo .eyebrow { color: #aaa9a2; }
+.auth-promo h1 { font-size: clamp(39px,5vw,63px); letter-spacing: -.075em; line-height: .98; margin: 22px 0 16px; }
+.auth-promo > p { color: #b7b6af; font-size: 13px; line-height: 1.7; max-width: 350px; }
+.auth-promo-mark { align-items: center; border-top: 1px solid #2e2f32; color: var(--gold); display: flex; font-family: var(--font-mono); font-size: 9px; gap: 12px; letter-spacing: .1em; margin-top: 50px; padding-top: 16px; }
+.auth-side-footer { color: #777771; font-family: var(--font-mono); font-size: 8px; letter-spacing: .12em; }
+.auth-main { display: flex; flex-direction: column; padding: 24px clamp(25px,6vw,80px) 28px; }
+.auth-topline { align-items: center; display: flex; font-size: 10px; justify-content: space-between; }
+.auth-topline > span { color: var(--ink-muted); }
+.auth-topline > span a { color: var(--ink); font-weight: 600; margin-left: 4px; }
+.auth-form-wrap { margin: auto; max-width: 440px; padding: 50px 0; width: 100%; }
+.auth-title { margin-bottom: 22px; }
+.auth-title h2 { font-size: 36px; letter-spacing: -.065em; margin: 8px 0 4px; }
+.auth-title p { color: var(--ink-muted); font-size: 12px; margin: 0; }
+.role-choice { background: #eae8e2; border-radius: 5px; display: flex; gap: 4px; margin-bottom: 21px; padding: 4px; }
+.role-choice button { align-items: center; background: transparent; border: 0; border-radius: 3px; color: var(--ink-muted); cursor: pointer; display: flex; flex: 1; font-size: 11px; gap: 8px; justify-content: center; min-height: 37px; }
+.role-choice button.selected { background: var(--white); box-shadow: 0 1px 3px rgba(8,9,11,.09); color: var(--ink); font-weight: 600; }
+.role-dot { border: 1px solid #aaa9a1; border-radius: 50%; height: 9px; width: 9px; }
+.role-choice button.selected .role-dot { background: var(--gold); border-color: var(--ink); box-shadow: inset 0 0 0 2px var(--white); }
+.auth-form { display: flex; flex-direction: column; gap: 15px; }
+.auth-form .field { gap: 6px; }
+.auth-form .field input { min-height: 43px; }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 44px; width: 100%; }
+.password-toggle { align-items: center; background: transparent; border: 0; color: var(--ink-muted); cursor: pointer; display: flex; height: 40px; justify-content: center; position: absolute; right: 2px; top: 1px; width: 38px; }
+.shop-register-fields { border: 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 13px; margin: 3px 0; padding: 15px 0 0; }
+.shop-register-fields legend { color: var(--ink-muted); font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; padding-right: 9px; }
+.form-grid-two { width: 100%; }
+.approval-note { align-items: flex-start; background: var(--warning-bg); border-radius: 4px; color: var(--ink); display: flex; font-size: 10px; gap: 7px; padding: 9px; }
+.approval-note svg { flex: 0 0 15px; }
+.auth-submit { justify-content: center; margin-top: 2px; width: 100%; }
+.auth-terms { color: var(--ink-faint); font-size: 9px; line-height: 1.6; margin: 18px 0 0; text-align: center; }
+@media (max-width: 760px) {
+  .auth-page { display: block; }
+  .auth-visual { min-height: auto; padding: 17px 22px; position: static; }
+  .auth-promo, .auth-side-footer { display: none; }
+  .auth-main { min-height: calc(100vh - 64px); padding: 20px 22px; }
+  .auth-form-wrap { margin: auto; padding: 36px 0; }
+}
+@media (max-width: 500px) {
+  .auth-topline { align-items: flex-start; gap: 10px; }
+  .auth-topline > span { text-align: right; }
+  .auth-title h2 { font-size: 31px; }
+  .shop-register-fields .form-grid-two { grid-template-columns: 1fr; }
+}

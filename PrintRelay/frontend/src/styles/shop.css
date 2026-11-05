@@ -1,0 +1,12 @@
+.shop-section-tabs { margin-top: -6px; }
+.payment-panel .panel-heading { margin-bottom: 12px; }
+.shop-order-card .status { font-size: 9px; }
+.shop-order-card .queue-chip { flex-shrink: 0; }
+.pickup-verifier .panel-heading { max-width: 620px; }
+.manual-pickup .field input { font-family: var(--font-mono); }
+.hours-row input:disabled { background: #f0efea; }
+.shop-profile-form .panel-heading { width: 100%; }
+@media (max-width: 520px) {
+  .shop-section-tabs { gap: 15px; }
+  .hours-row { grid-template-columns: 57px 73px minmax(55px,1fr) 9px minmax(55px,1fr); }
+}

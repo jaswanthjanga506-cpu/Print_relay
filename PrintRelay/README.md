@@ -12,7 +12,7 @@ Customers upload a PDF, choose print preferences, place an order with a local pr
 | Backend API (auth, shops, PDF upload, pricing, orders, FIFO queue, payment, pickup, notifications, admin) | **Implemented** |
 | Backend unit + HTTP smoke tests | **Passing** (17/17, run locally) |
 | Backend end-to-end workflow test (`npm run test:integration`) | Written, **not yet executed** (needs a MongoDB binary) |
-| Frontend (React + Vite + Tailwind) | **Not started** — folders scaffolded in `frontend/` |
+| Frontend (React + Vite + plain CSS) | **Implemented** — customer, shop-owner and admin workflows |
 | Presentation (`docs/presentation/`) | Not started |
 | Deployment | Not done |
 
@@ -31,7 +31,7 @@ Customers upload a PDF, choose print preferences, place an order with a local pr
 
 ## Tech stack
 - **Backend:** Node.js, Express 4, MongoDB (Atlas) + Mongoose, GridFS, JWT in HttpOnly cookies, bcrypt (`bcryptjs`), Multer, Zod, pdf-lib, qrcode, Socket.IO, Helmet, express-rate-limit
-- **Frontend (planned):** React, Vite, JavaScript, Tailwind CSS, React Router, Axios, Lucide, PDF.js, Socket.IO client
+- **Frontend:** React, Vite, JavaScript, React Router, Axios, Lucide, PDF.js, Socket.IO client, ZXing QR scanner, plain CSS
 
 ## Repository layout
 ```
@@ -39,7 +39,7 @@ PrintRelay/
 ├── backend/        Express API (see backend/README.md for the full API reference)
 │   ├── config/ controllers/ middleware/ models/ routes/
 │   ├── services/ validators/ sockets/ utils/ scripts/ tests/
-├── frontend/       Vite + React app (scaffold only)
+├── frontend/       Vite + React application (see setup below)
 ├── docs/presentation/
 └── README.md
 ```
@@ -68,6 +68,24 @@ npm run dev                 # http://localhost:5000/api/health
 npm test                    # unit + smoke tests
 ```
 Generate secrets: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
+
+## Setup (frontend)
+Prerequisites: Node.js ≥ 20 and npm.
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+```
+The frontend runs at `http://localhost:5173` by default. `VITE_API_URL` is the backend origin (default `http://localhost:5000`, without `/api`). Set the backend `CLIENT_ORIGINS` to include `http://localhost:5173`.
+
+For a production bundle, run `npm run build` in `frontend/`. The build is written to `frontend/dist/`.
+
+## Run locally
+1. Configure `backend/.env` with a MongoDB URI, strong `JWT_SECRET` and `PICKUP_SECRET`, and `CLIENT_ORIGINS=http://localhost:5173`.
+2. In one terminal, run `cd backend && npm install && npm run dev`.
+3. In another terminal, run `cd frontend && npm install && npm run dev`.
+4. Open `http://localhost:5173`. Admin users are created with the backend's `npm run seed:admin` command.
 
 ### Environment variables (backend)
 | Variable | Purpose |

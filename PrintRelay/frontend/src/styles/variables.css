@@ -1,0 +1,22 @@
+:root {
+  color-scheme: light;
+  --ink: #08090b;
+  --paper: #f5f3ef;
+  --white: #ffffff;
+  --gold: #ffc900;
+  --gold-soft: rgba(255, 201, 0, .14);
+  --ink-muted: #75756f;
+  --ink-faint: #9c9b95;
+  --line: #e5e3dd;
+  --line-dark: rgba(245, 243, 239, .14);
+  --success: var(--ink);
+  --success-bg: var(--paper);
+  --warning: var(--ink);
+  --warning-bg: var(--gold-soft);
+  --danger: var(--ink);
+  --danger-bg: var(--paper);
+  --font-sans: "Instrument Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, monospace;
+  --shadow: 0 16px 42px rgba(8, 9, 11, .08);
+  --radius: 8px;
+}
