@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: printrelay-api
+    runtime: node
+    plan: free
+    rootDir: PrintRelay/backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PICKUP_SECRET
+        sync: false
+      - key: CLIENT_ORIGINS
+        sync: false
+      - key: DEMO_PRODUCTION_SEED_ENABLED
+        value: "false"
+      - key: ADMIN_NAME
+        value: PrintRelay Demo Admin
+      - key: ADMIN_EMAIL
+        value: admin@printrelay.test
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DEMO_CUSTOMER_EMAIL
+        value: customer@printrelay.test
+      - key: DEMO_CUSTOMER_PASSWORD
+        sync: false
+      - key: DEMO_SHOP_OWNER_EMAIL
+        value: owner@printrelay.test
+      - key: DEMO_SHOP_OWNER_PASSWORD
+        sync: false
