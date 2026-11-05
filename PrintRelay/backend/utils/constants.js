@@ -1,0 +1,51 @@
+export const ROLES = { CUSTOMER: 'customer', SHOP_OWNER: 'shop_owner', ADMIN: 'admin' };
+
+export const ORDER_STATUS = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  PRINTING: 'PRINTING',
+  READY_FOR_PICKUP: 'READY_FOR_PICKUP',
+  COLLECTED: 'COLLECTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+};
+export const ORDER_STATUSES = Object.values(ORDER_STATUS);
+
+// Valid status transitions. Anything else is rejected.
+export const TRANSITIONS = {
+  PENDING: ['ACCEPTED', 'REJECTED', 'CANCELLED'],
+  ACCEPTED: ['PRINTING', 'CANCELLED'],
+  PRINTING: ['READY_FOR_PICKUP'],
+  READY_FOR_PICKUP: ['COLLECTED'],
+  COLLECTED: [],
+  REJECTED: [],
+  CANCELLED: [],
+};
+
+export const ACTIVE_QUEUE_STATUSES = ['ACCEPTED', 'PRINTING'];
+export const IN_PROGRESS_STATUSES = ['PENDING', 'ACCEPTED', 'PRINTING', 'READY_FOR_PICKUP'];
+export const HISTORY_STATUSES = ['COLLECTED', 'REJECTED', 'CANCELLED'];
+
+export const PAYMENT_STATUSES = ['UNPAID', 'PAID'];
+export const PAYMENT_PREFERENCES = ['CASH', 'UPI'];
+export const PRINT_TYPES = ['BW', 'COLOUR'];
+export const SIDES = ['SINGLE', 'DOUBLE'];
+export const BINDINGS = ['NONE', 'SPIRAL'];
+export const SHOP_APPROVALS = ['PENDING', 'APPROVED', 'REJECTED', 'SUSPENDED'];
+
+export const NOTIFICATION_TYPES = [
+  'ORDER_RECEIVED',
+  'ORDER_ACCEPTED',
+  'ORDER_REJECTED',
+  'ORDER_PRINTING',
+  'ORDER_READY',
+  'PAYMENT_CONFIRMED',
+  'ORDER_COLLECTED',
+  'ORDER_CANCELLED',
+  'SHOP_APPROVED',
+  'SHOP_REJECTED',
+  'SHOP_SUSPENDED',
+];
+
+export const COOKIE_NAME = 'pr_token';
+export const CSRF_HEADER_VALUE = 'PrintRelay';
