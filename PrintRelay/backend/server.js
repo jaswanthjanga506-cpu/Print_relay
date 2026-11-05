@@ -20,7 +20,11 @@ async function main() {
   const server = http.createServer(createApp());
   initSocket(server);
   startFileCleanup();
-  server.listen(env.port, () => console.log(`[server] PrintRelay API listening on :${env.port}`));
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(env.port, resolve);
+  });
+  console.log(`[server] PrintRelay API listening on :${env.port}`);
 
   const shutdown = (signal) => {
     console.log(`[server] ${signal} received, shutting down`);
@@ -35,6 +39,12 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('[server] failed to start:', err.message);
+  const code = err?.code ? ` (${err.code})` : '';
+  console.error(`[server] failed to start${code}:`, err.message);
+  if (err?.code === 'EADDRINUSE') {
+    console.error(`[server] Port ${env.port} is already in use. Stop the other backend process or set PORT to a free port.`);
+  } else if (/SSL routines|TLS alert|TLS handshake|Connection pool/i.test(err?.message || '')) {
+    console.error('[server] MongoDB TLS failed before authentication. Check Atlas Network Access for this machine and any outbound TLS-inspecting firewall or proxy.');
+  }
   process.exit(1);
 });

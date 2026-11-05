@@ -11,10 +11,17 @@ function secret(name) {
   return `dev-insecure-${name.toLowerCase()}-fallback-value-0123456789`;
 }
 
-const clientOrigins = (process.env.CLIENT_ORIGINS || 'http://localhost:5173')
+const configuredClientOrigins = (process.env.CLIENT_ORIGINS || 'http://localhost:5173')
   .split(',')
   .map((o) => o.trim().replace(/\/$/, ''))
   .filter(Boolean);
+const localDevOrigins = isProd ? [] : [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+];
+const clientOrigins = [...new Set([...configuredClientOrigins, ...localDevOrigins])];
 
 if (isProd && clientOrigins.some((o) => o === '*')) throw new Error('CLIENT_ORIGINS must list exact origins in production');
 

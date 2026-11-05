@@ -72,7 +72,7 @@ export function ShopDiscovery() {
     setLoading(true); setError('');
     const service = ['bw', 'colour', 'spiral'].filter((s) => filters[s]).join(',');
     try {
-      const res = await api.get('/shops', { params: { q: params.get('q') || '', service, accepting: filters.accepting ? 'true' : '', page, limit: 9 } });
+      const res = await api.get('/shops', { params: { q: params.get('q') || '', service: service || undefined, accepting: filters.accepting ? 'true' : undefined, page, limit: 9 } });
       setShops(payload(res) || []); setMeta(res.data.pagination || { page: 1, totalPages: 1 });
     } catch (e) { setError(errorMessage(e)); } finally { setLoading(false); }
   }, [params, filters, page]);
@@ -259,7 +259,7 @@ export function CustomerOrders() {
   const [error, setError] = useState('');
   const load = useCallback(async () => {
     setLoading(true); setError('');
-    try { const r = await api.get('/orders', { params: { page, limit: 10, status } }); setOrders(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); }
+    try { const r = await api.get('/orders', { params: { page, limit: 10, status: status || undefined } }); setOrders(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); }
     catch (e) { setError(errorMessage(e)); } finally { setLoading(false); }
   }, [page, status]);
   useRealtimeRefresh(load);

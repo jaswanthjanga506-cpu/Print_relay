@@ -13,7 +13,11 @@ export function errorHandler(err, req, res, _next) {
   let details;
   let code = err.code && typeof err.code === 'string' ? err.code : undefined;
 
-  if (err instanceof ApiError) {
+  if (['MongooseServerSelectionError', 'MongoServerSelectionError', 'MongoNetworkError'].includes(err?.name)) {
+    status = 503;
+    message = 'The database is temporarily unavailable. Check the MongoDB Atlas connection and try again.';
+    code = 'DATABASE_UNAVAILABLE';
+  } else if (err instanceof ApiError) {
     ({ status, message, details } = err);
   } else if (err instanceof ZodError) {
     status = 400;
@@ -48,5 +52,11 @@ export function errorHandler(err, req, res, _next) {
   }
 
   if (status >= 500) console.error(`[error] ${req.method} ${req.originalUrl}`, err);
-  res.status(status).json({ error: { message, ...(details ? { details } : {}), ...(code && status < 500 ? { code } : {}) } });
+  res.status(status).json({
+    error: {
+      message,
+      ...(details ? { details } : {}),
+      ...(code && (status < 500 || code === 'DATABASE_UNAVAILABLE') ? { code } : {}),
+    },
+  });
 }

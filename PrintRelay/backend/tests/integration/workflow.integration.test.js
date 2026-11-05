@@ -56,6 +56,10 @@ before(async () => {
 after(async () => { server?.close(); await mongoose.disconnect(); await mongod?.stop(); });
 
 test('full customer -> shop -> pickup workflow', async () => {
+  const ready = await fetch(`${base}/ready`);
+  assert.equal(ready.status, 200);
+  assert.equal((await ready.json()).data.status, 'ok');
+
   const [c1, c2, ownerA, ownerB, admin] = [new Client(), new Client(), new Client(), new Client(), new Client()];
 
   // registration + login

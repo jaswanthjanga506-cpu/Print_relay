@@ -43,7 +43,7 @@ export function AdminShops() {
   const toast = useToast();
   const load = useCallback(async () => {
     setLoading(true);
-    try { const r = await api.get('/admin/shops', { params: { q: search, status, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
+    try { const r = await api.get('/admin/shops', { params: { q: search, status: status || undefined, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
     catch (e) { setError(errorMessage(e)); } finally { setLoading(false); }
   }, [search,status,page]);
   useEffect(() => { load(); }, [load]);
@@ -77,7 +77,7 @@ export function AdminUsers() {
   const toast = useToast();
   const load = useCallback(async () => {
     setLoading(true);
-    try { const r = await api.get('/admin/users', { params: { q: search, role, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
+    try { const r = await api.get('/admin/users', { params: { q: search, role: role || undefined, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
     catch (e) { setError(errorMessage(e)); } finally { setLoading(false); }
   }, [search,role,page]);
   useEffect(() => { load(); }, [load]);
@@ -105,7 +105,7 @@ export function AdminOrders() {
   const [error, setError] = useState('');
   const load = useCallback(async () => {
     setLoading(true);
-    try { const r = await api.get('/admin/orders', { params: { q: query, status, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
+    try { const r = await api.get('/admin/orders', { params: { q: query, status: status || undefined, page, limit: 15 } }); setItems(payload(r) || []); setMeta(r.data.pagination || { page, totalPages: 1 }); setError(''); }
     catch (e) { setError(errorMessage(e)); } finally { setLoading(false); }
   }, [query,status,page]);
   useEffect(() => { load(); }, [load]);

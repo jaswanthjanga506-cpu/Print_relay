@@ -13,7 +13,33 @@ Money is **integer paise**.
 | `POST /auth/login` · `POST /auth/logout` · `GET /auth/me` | | |
 | `PATCH /auth/profile` · `PATCH /auth/password` | any | |
 
-Admin accounts exist only via `npm run seed:admin`.
+Local demo accounts and the approved `PrintRelay Demo Shop` are created with
+`npm run seed:demo`. This command is limited to `NODE_ENV=development` and
+requires `DEMO_SEED_ENABLED=true`; it updates only the dedicated demo accounts
+and their shop. Keep their credentials in the ignored `backend/.env` file.
+
+## Local development
+Configure `backend/.env` from `.env.example`, preserving your existing Atlas URI
+and application secrets. Set the local demo credentials and enable demo seeding.
+Then run:
+
+```powershell
+cd backend
+npm run seed:demo
+npm run dev
+```
+
+In another terminal:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+Open the frontend URL printed by Vite (normally `http://localhost:5173`; it may
+use `http://localhost:5174` if 5173 is occupied). Both local development ports
+are allowed by the backend CORS configuration. The API listens on
+`http://localhost:5000`.
 
 ## Shops (public discovery — approved shops only)
 - `GET /shops?q=&service=bw,colour,spiral&accepting=true&page=&limit=` — includes real `activeQueue` count

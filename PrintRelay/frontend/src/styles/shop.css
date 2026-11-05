@@ -1,6 +1,6 @@
 .shop-section-tabs { margin-top: -6px; }
 .payment-panel .panel-heading { margin-bottom: 12px; }
-.shop-order-card .status { font-size: 9px; }
+.shop-order-card .status { font-size: 12px; }
 .shop-order-card .queue-chip { flex-shrink: 0; }
 .pickup-verifier .panel-heading { max-width: 620px; }
 .manual-pickup .field input { font-family: var(--font-mono); }

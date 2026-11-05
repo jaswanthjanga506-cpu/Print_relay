@@ -15,8 +15,20 @@
   --warning-bg: var(--gold-soft);
   --danger: var(--ink);
   --danger-bg: var(--paper);
-  --font-sans: "Instrument Sans", "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", Consolas, monospace;
+  --font-family-main: "Inter", system-ui, sans-serif;
+  --font-family-mono: "IBM Plex Mono", monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --line-height-body: 1.55;
+  --line-height-heading: 1.2;
+  --font-sans: var(--font-family-main);
+  --font-mono: var(--font-family-mono);
   --shadow: 0 16px 42px rgba(8, 9, 11, .08);
   --radius: 8px;
 }

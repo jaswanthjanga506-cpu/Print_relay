@@ -4,6 +4,7 @@ import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'http';
 import { createApp } from '../app.js';
+import { errorHandler } from '../middleware/error.js';
 
 let server; let base;
 before(async () => {
@@ -20,6 +21,44 @@ test('health', async () => {
   const r = await req('/health');
   assert.equal(r.status, 200);
   assert.equal(r.headers.get('x-powered-by'), null); // helmet
+});
+
+test('local Vite fallback port is allowed by development CORS', async () => {
+  const allowed = await req('/health', { headers: { Origin: 'http://localhost:5174' } });
+  assert.equal(allowed.headers.get('access-control-allow-origin'), 'http://localhost:5174');
+  assert.equal(allowed.headers.get('access-control-allow-credentials'), 'true');
+
+  const denied = await req('/health', { headers: { Origin: 'https://untrusted.example' } });
+  assert.equal(denied.headers.get('access-control-allow-origin'), null);
+});
+
+test('readiness reports an unavailable database', async () => {
+  const r = await req('/ready');
+  assert.equal(r.status, 503);
+  assert.deepEqual((await r.json()).data, {
+    status: 'unavailable',
+    service: 'printrelay-api',
+    dependency: 'mongodb',
+  });
+});
+
+test('database selection failures return an actionable 503', () => {
+  let status;
+  let body;
+  const res = {
+    status(value) { status = value; return this; },
+    json(value) { body = value; return this; },
+  };
+  errorHandler(
+    Object.assign(new Error('internal connection details'), { name: 'MongooseServerSelectionError' }),
+    { method: 'POST', originalUrl: '/api/auth/login' },
+    res,
+    () => {}
+  );
+  assert.equal(status, 503);
+  assert.equal(body.error.code, 'DATABASE_UNAVAILABLE');
+  assert.match(body.error.message, /MongoDB Atlas/);
+  assert.doesNotMatch(JSON.stringify(body), /internal connection details/);
 });
 
 test('state-changing requests without the custom header are blocked', async () => {

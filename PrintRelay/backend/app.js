@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -27,6 +28,19 @@ export function createApp() {
   if (!env.isTest) app.use(morgan(env.isProd ? 'combined' : 'dev'));
 
   app.get('/api/health', (_req, res) => res.json({ data: { status: 'ok', service: 'printrelay-api', time: new Date().toISOString() } }));
+  app.get('/api/ready', async (_req, res) => {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ data: { status: 'unavailable', service: 'printrelay-api', dependency: 'mongodb' } });
+    }
+
+    try {
+      await mongoose.connection.db.admin().ping();
+      return res.json({ data: { status: 'ok', service: 'printrelay-api', time: new Date().toISOString() } });
+    } catch (err) {
+      console.error('[ready] MongoDB check failed', err.message);
+      return res.status(503).json({ data: { status: 'unavailable', service: 'printrelay-api', dependency: 'mongodb' } });
+    }
+  });
 
   app.use('/api', apiLimiter, requireCsrfHeader, routes);
   app.use(notFoundHandler);

@@ -32,6 +32,16 @@ export function AuthProvider({ children }) {
 
   useEffect(() => { refresh(); }, [refresh]);
 
+  useEffect(() => {
+    const expireSession = (event) => {
+      setUser(null);
+      setShop(null);
+      setInitError(event.detail?.message || 'Your session has expired. Please sign in again.');
+    };
+    window.addEventListener('printrelay:session-expired', expireSession);
+    return () => window.removeEventListener('printrelay:session-expired', expireSession);
+  }, []);
+
   const acceptSession = useCallback((data) => {
     setUser(data.user);
     setShop(data.shop || null);

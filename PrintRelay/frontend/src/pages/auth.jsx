@@ -3,7 +3,7 @@ import { Eye, EyeOff, ArrowLeft, ArrowRight, Check, Printer } from 'lucide-react
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { api, errorMessage, payload } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Button, Field, Logo } from '../components/common';
+import { Button, Field, Loader, Logo } from '../components/common';
 import { useToast } from '../context/ToastContext';
 import '../styles/auth.css';
 
@@ -15,13 +15,14 @@ export function AuthPage() {
   const register = location.pathname.startsWith('/register');
   const navigate = useNavigate();
   const toast = useToast();
-  const { user, acceptSession } = useAuth();
+  const { user, ready, acceptSession } = useAuth();
   const [role, setRole] = useState(mode === 'shop-owner' ? 'shop_owner' : 'customer');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(location.state?.message || '');
   useEffect(() => { setRole(mode === 'shop-owner' ? 'shop_owner' : 'customer'); }, [mode]);
 
+  if (!ready) return <div className="full-loader"><Loader label="Checking your session" /></div>;
   if (user) return <Navigate to={home(user.role)} replace />;
 
   const submit = async (event) => {
@@ -32,7 +33,7 @@ export function AuthPage() {
     if (register && (password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password))) {
       setError('Use at least 8 characters, including a letter and a number.'); return;
     }
-    if (register && role === 'shop_owner' && !/^\d{6}$/.test(form.pincode)) {
+    if (register && role === 'shop_owner' && form.pincode && !/^\d{6}$/.test(form.pincode)) {
       setError('Enter a valid six-digit shop pincode.'); return;
     }
     setSubmitting(true);
@@ -43,6 +44,7 @@ export function AuthPage() {
       } : register ? { name: form.name, email: form.email, password, phone: form.phone || undefined } : { email: form.email, password };
       const endpoint = register ? `/auth/register/${role === 'shop_owner' ? 'shop-owner' : 'customer'}` : '/auth/login';
       const result = payload(await api.post(endpoint, body));
+      if (!result?.user?.role) throw new Error('The server returned an invalid sign-in response. Please try again.');
       acceptSession(result);
       toast(register && role === 'shop_owner' ? 'Shop registration submitted for approval.' : register ? 'Your account is ready.' : 'Welcome back.');
       navigate(home(result.user.role), { replace: true });
