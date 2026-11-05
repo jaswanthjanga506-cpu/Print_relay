@@ -72,11 +72,11 @@ export function AuthPage() {
           {demoDetailsOpen && <div className="demo-details-panel" id="demo-details-panel">
             <p className="demo-details-intro">Explore PrintRelay with one of these demo roles:</p>
             <ul>
-              <li><span>Admin</span><code>admin@printrelay.test</code></li>
-              <li><span>Customer</span><code>customer@printrelay.test</code></li>
-              <li><span>Shop owner</span><code>owner@printrelay.test</code></li>
+              <li><span>Admin</span><div className="demo-account-credentials"><code>admin@printrelay.test</code><code>Password: PrintRelayAdmin@2026!</code></div></li>
+              <li><span>Customer</span><div className="demo-account-credentials"><code>customer@printrelay.test</code><code>Password: PrintRelayCustomer@2026!</code></div></li>
+              <li><span>Shop owner</span><div className="demo-account-credentials"><code>owner@printrelay.test</code><code>Password: PrintRelayOwner@2026!</code></div></li>
             </ul>
-            <p className="demo-details-note">For account security, passwords aren’t displayed here. Contact the demo host for access.</p>
+            <p className="demo-details-note">These are shared demo credentials. Please don’t enter personal or sensitive information.</p>
           </div>}
         </div>}
         {register && <div className="role-choice" role="group" aria-label="Account type"><button className={role === 'customer' ? 'selected' : ''} onClick={() => setRole('customer')} type="button"><span className="role-dot" /> Customer</button><button className={role === 'shop_owner' ? 'selected' : ''} onClick={() => setRole('shop_owner')} type="button"><span className="role-dot" /> Printing shop</button></div>}
