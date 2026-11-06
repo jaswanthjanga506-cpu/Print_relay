@@ -1,0 +1,34 @@
+:root {
+  color-scheme: light;
+  --ink: #08090b;
+  --paper: #f5f3ef;
+  --white: #ffffff;
+  --gold: #ffc900;
+  --gold-soft: rgba(255, 201, 0, .14);
+  --ink-muted: #75756f;
+  --ink-faint: #9c9b95;
+  --line: #e5e3dd;
+  --line-dark: rgba(245, 243, 239, .14);
+  --success: var(--ink);
+  --success-bg: var(--paper);
+  --warning: var(--ink);
+  --warning-bg: var(--gold-soft);
+  --danger: var(--ink);
+  --danger-bg: var(--paper);
+  --font-family-main: "Inter", system-ui, sans-serif;
+  --font-family-mono: "IBM Plex Mono", monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --line-height-body: 1.55;
+  --line-height-heading: 1.2;
+  --font-sans: var(--font-family-main);
+  --font-mono: var(--font-family-mono);
+  --shadow: 0 16px 42px rgba(8, 9, 11, .08);
+  --radius: 8px;
+}

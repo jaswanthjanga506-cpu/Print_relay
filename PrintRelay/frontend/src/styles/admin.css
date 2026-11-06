@@ -1,0 +1,11 @@
+.admin-toolbar .search-input { flex: 1; }
+.admin-toolbar { flex-wrap: wrap; }
+.admin-shop-row > .status { flex-shrink: 0; }
+.admin-shop-info small { overflow-wrap: anywhere; }
+.data-table td .status { max-width: 150px; }
+@media (max-width: 760px) {
+  .admin-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 520px) {
+  .admin-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
